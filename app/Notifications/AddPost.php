@@ -39,9 +39,9 @@ class AddPost extends Notification
        $user=Auth::user();
 
         return [
-           'data'=>'Created New Post ' .$this->post->title ,
+           'title'=>'New Post ' .$this->post->title ,
            'user'=>'Created By ' . " ( " .$user->name ." ) ",
-          // 'usertype'=> " ( " .$user->usertype ." ) "
+           'date'=>'date' .$this->post->created_at
         ];
     }
 }

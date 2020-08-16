@@ -57,8 +57,10 @@ class NewUserNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'data'=>'Created New User ' .$this->user->name,
-            'user'=>'Created By ' . " ( " .$this->user->usertype ." ) "
+            'user'=>' ' .$this->user->name,
+            'usertype'=>' Role  ' . " ( " .$this->user->usertype ." ) ",
+            'date'=>'date' .$this->user->created_at,
+
         ];
     }
 }

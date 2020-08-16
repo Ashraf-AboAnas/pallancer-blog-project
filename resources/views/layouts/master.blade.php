@@ -38,6 +38,12 @@
 <link href="{{asset('assets/demo/demo.css') }}" rel="stylesheet" />
 
 <link href="{{asset('assets/css/dataTables.min.css') }}" rel="stylesheet" />
+<style>
+    .unread{
+        background-color: #e5e5e5;
+    }
+
+        </style>
 @yield('stylesheets')
 </head>
 
@@ -192,30 +198,19 @@
                                     </form>
                                 </div>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    Notifications <span class="caret"></span>
-                                </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <span class="dropdown-item">
-                                      aaaaaaaaaaaaaaaaaaaaaaaa
-                                   </span>
-                                   <span class="dropdown-item">
-                                    bbbbbbbbbbbbbbbbbbbbbbb
-                                 </span>
-
-
-                                </div>
-                            </li>
 
                            {{-- ************************* --}}
-                             {{-- <li class="nav-item dropdown">
+                          <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Notifications <span class="caret"></span>
                                     @if(Auth::user()->usertype=='admin')
 
                                           {{count($countNotifications)}}
+                                    @else
+
+                                    {{count($countNotifications)}}
+
 
                                     @endif
                                 </a>
@@ -223,25 +218,86 @@
                                 <ul class="dropdown-menu dropdown-menu-right " aria-labelledby="navbarDropdown">
 
                                     @foreach ($notifications as $note)
-                                  <li class="{{$note->read_at==null?'unread':'' }}" style="background-color: cornflowerblue">
-                                    <a href="#" class="">
-                                       <span style="text-align: center">
-                                            {{$note->data['data']}}
-                                            {{$note->data['user'] ?? '' }}
+                                    @if(Auth::user()->usertype=='admin' and ($note->type =='App\Notifications\AddPost'or $note->type =='App\Notifications\NewUserNotification') )
 
-                                         </span><hr>
+                                     @if($note->type =='App\Notifications\AddPost')
 
-                                </a>
+                                           <div style="background-color:#dbf355;">
+                                            <p style="color:rgb(17, 63, 42);font-size:13px;"> <i class="fas fa-newspaper ml-1"></i>POST <br>  </p>
+                                           </div>
+                                            <li class="{{$note->read_at==null?'unread':'' }}" >
+                                            <a href="# " class="">
+                                            <span style="text-align: center;">
+                                                <p style="color:rgb(197, 98, 106);font-size:10px;">
 
-                                <?php $note->markAsRead()?>
+                                                     {{$note->data['title'] ?? '' }}<br>
+                                                     {{$note->data['user'] ?? '' }}<br>
+                                                     {{$note->data['date'] ?? '' }}<br>
+                                                     {{$note->created_at->diffForHumans() }}
+                                                </p>
+
+                                                </span><hr>
+
+                                            </a>
+
+
+                                           <?php $note->markAsRead()?>
+                                      </li>
+                                @elseif($note->type =='App\Notifications\NewUserNotification')
+                                       <div style="background-color:#62f1a2" >
+                                       <p style="color:rgb(30, 112, 64);font-size:13px;"><i class="fas fa-user ml-1"></i> USER <br> </p></div>
+                                        <li class="{{$note->read_at==null?'unread':'' }}" >
+                                        <a href="#" class="">
+                                        <span style="text-align: center;">
+                                            <p style="color:rgb(197, 98, 106);font-size:10px;">
+                                            Name    {{$note->data['user'] ?? '' }} <br>
+                                             Type   {{$note->data['usertype'] ?? '' }}<br>
+                                                {{$note->data['date'] ?? '' }}<br>
+                                                {{$note->created_at->diffForHumans() }}
+                                            </p>
+
+                                            </span><hr>
+
+                                        </a>
+
+
+                                        <?php $note->markAsRead()?>
+                                        </li>
+                            @endif
+                        @elseif(($note->type =='App\Notifications\AddPost') and ($note->notifiable_id == Auth::user()->id) )
+
+                        <div style="background-color:#dbf355;">
+                            <p style="color:rgb(17, 63, 42);font-size:13px;"> <i class="fas fa-newspaper ml-1"></i>POST <br>  </p>
+                        </div>
+                        <p style="color:rgb(197, 98, 106);font-size:10px;">     {{$note->data['data'] ?? '' }}</p>
+                        <li class="{{$note->read_at==null?'unread':'' }}" >
+                        <a href="#" class="">
+                           <span style="text-align: center;">
+                            <p style="color:rgb(197, 98, 106);font-size:10px;">
+                                {{$note->data['user'] ?? '' }}
+                                {{$note->data['title'] ?? '' }}
+                                {{$note->data['date'] ?? '' }}
+                            </p>
+
+                             </span><hr>
+
+                         </a>
+
+
+                    <?php $note->markAsRead()?>
 
 
 
 
-                            </li>
+                </li>
+
+
+
+                            @endif
                             @endforeach
+
                             </ul>
-                            </li> --}}
+                            </li>
 
                             {{-- ****************************** --}}
 
@@ -300,17 +356,18 @@
               </li>
             </ul>
           </nav>
+
           <div class="copyright" id="copyright">
             &copy; <script>
               document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">AboANaS</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">AboANaS</a>.
           </div>
         </div>
       </footer>
     </div>
   </div>
   <!--   Core JS Files   -->
-  <script src="{{asset('js/app.js')}}"></script>
+
   <script src="{{asset('assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
   <!--  Google Maps Plugin    -->
   {{-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> --}}
@@ -324,7 +381,8 @@
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
 <script type="{{asset('text/javascript" src="js/noty/packaged/jquery.noty.packaged.min.js')}}"></script>
 <script src="{{ asset('assets/js/sweetalert.js')}}"></script>
-{{-- <script src="{{asset('js/app.js')}}"></script> --}}
+ <script src="{{asset('js/app.js')}}"></script>
+
 <script>
 
 

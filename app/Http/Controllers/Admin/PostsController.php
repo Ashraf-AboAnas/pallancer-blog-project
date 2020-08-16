@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Posts;
+use app\User;
 
 
 use Illuminate\Http\Request;
@@ -101,7 +102,8 @@ class PostsController extends Controller
     //   ** Use Notification If Add Post ***
     if($posts){
 
-       $user =Auth::user();
+    $user =Auth::user();//register notification to Auth user in dashboard just  (not all user in user table)
+    //$user=User::where('usertype','!=','user')->get(); // if i want sent notification all user in user tabel excpect user type =user
        Notification::send($user,new AddPost($posts));
     }
     // ***********

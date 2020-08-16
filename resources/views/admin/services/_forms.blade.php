@@ -1,15 +1,15 @@
 <!-- Modal -->
 
-  
+
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>                                 
-      
+      </div>
+
         @csrf
-       
+
       <div class="modal-body">
-              
+
           <div class="form-group">
 
             <label for="service_name">services name</label>
@@ -19,7 +19,7 @@
                  @enderror
           </div>
           <input type="hidden" name="service_id" id="service_id" value="" >
-          
+
           <div class="form-group">
                       <label for="service_description" > Services Description:</label>
                       <textarea  name="service_description"class="form-control  @error('service_description') is-invalid @enderror" id="services_description"></textarea>
@@ -30,13 +30,13 @@
 
 
 
-                      <div class="modal-footer">
+                      <div class="footer_float">
                       <a href="{{route('services.index')}}" class="btn btn-secondary" >Cancle</a>
                         <button type="submit" class="btn btn-primary">Save changes</button>
-                        
+
                       </div>
                 </div>
               </div>
             </div>
-          </div> 
-       
+          </div>
+

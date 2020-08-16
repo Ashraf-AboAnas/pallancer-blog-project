@@ -129,7 +129,7 @@ Categories|blog ...
 @endsection
 
 @section('scripts')
-{{-- <script src="{{asset('js/app.js')}}"></script> --}}
+
 <script>
 
     $('#tags_edit').on('show.bs.modal', function (event) {

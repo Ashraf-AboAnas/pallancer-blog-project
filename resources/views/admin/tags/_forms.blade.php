@@ -20,7 +20,7 @@
 
 
 
-             <div class="modal-footer">
+             <div class="footer_float">
                 <a href="{{route('tags.index')}}" class="btn btn-secondary" >Cancle</a>
               <button type="submit" class="btn btn-primary">Save changes</button>
            </div>
